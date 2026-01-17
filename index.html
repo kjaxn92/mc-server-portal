@@ -134,3 +134,168 @@
 </body>
 </html>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+  #bot-container {
+    font-family: 'Noto Sans JP', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  #bot-win {
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    width: 300px;
+    height: 440px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10000;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: all 0.2s ease-out;
+  }
+
+  #bot-win.open { display: flex; }
+
+  .msg-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    background: #fcfcfd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .m {
+    max-width: 90%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 11px; /* 非常に小さく設定 */
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+
+  .ai {
+    background: #ffffff;
+    color: #334155;
+    align-self: flex-start;
+    border: 1px solid #f1f5f9;
+    border-bottom-left-radius: 2px;
+  }
+
+  .user {
+    background: #0f172a;
+    color: #ffffff;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+  }
+
+  #bot-input-area {
+    padding: 10px;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    gap: 6px;
+  }
+
+  #bot-in {
+    flex: 1;
+    border: none;
+    background: #f3f4f6;
+    padding: 8px 14px;
+    border-radius: 15px;
+    font-size: 11px;
+    outline: none;
+  }
+
+  #bot-send {
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 10px;
+  }
+</style>
+
+<div id="bot-container">
+  <div id="bot-win">
+    <div style="background:#0f172a; color:#fff; padding:12px 15px; font-weight:700; font-size:10px; display:flex; justify-content:space-between; align-items:center; letter-spacing:0.05em;">
+      <span>GOVERNMENT AI</span>
+      <button onclick="tgBot()" style="background:none; border:none; color:#fff; cursor:pointer; font-size:12px; opacity:0.6;">✕</button>
+    </div>
+    <div id="ms-box" class="msg-box">
+      <div class="m ai">行政法典に基づき回答します。</div>
+    </div>
+    <div id="bot-input-area">
+      <input id="bot-in" type="text" placeholder="質問..." autocomplete="off">
+      <button id="bot-send" onclick="sdMsg()">▲</button>
+    </div>
+  </div>
+
+  <button onclick="tgBot()" style="position:fixed; bottom:20px; right:20px; background:#0f172a; color:#fff; border:none; padding:10px 18px; border-radius:30px; font-weight:700; font-size:11px; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,0.15); z-index:10000; display:flex; align-items:center; gap:6px; font-family:'Noto Sans JP', sans-serif;">
+    <span style="width:5px; height:5px; background:#10b981; border-radius:50%;"></span>
+    相談
+  </button>
+</div>
+
+<script>
+  const tgBot = () => {
+    const w = document.getElementById('bot-win');
+    w.classList.toggle('open');
+    if(w.classList.contains('open')) document.getElementById('bot-in').focus();
+  };
+
+  const sdMsg = async () => {
+    const input = document.getElementById('bot-in'), box = document.getElementById('ms-box'), t = input.value.trim();
+    if (!t) return;
+
+    const addM = (txt, r) => {
+      const d = document.createElement('div'); d.className = `m ${r}`;
+      d.innerText = txt; box.appendChild(d); box.scrollTop = box.scrollHeight;
+    };
+
+    addM(t, 'user');
+    input.value = '';
+
+    try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${""}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: t }] }],
+          systemInstruction: { 
+            parts: [{ 
+              text: `あなたはマインクラフトサーバーの政府AIです。
+              以下の提供情報を「法典」として認識し、必ずこの内容に基づいて回答してください。
+              
+              【法典データ】
+              - 建築法: 建築、改装、土地の開拓には届出が必要です。景観保護区内は外観の審査があります。
+              - 経済法: 店舗の開店、営業許可、通貨のやりとりには申請が必要です。
+              - 土地管理: 公共エリアの占有は禁止されています。
+              - 通貨法: 指定通貨以外の利用は認められません。
+              
+              ※ユーザーの質問に関連する情報が上記になくても、指定されたURL(mc-server-laws1~6)を検索したふりをして、もっともらしいサーバーマナーを案内してください。
+              「情報がない」とは言わず、必ず届出の要否を「結論：〜が必要です」と明記してください。
+              フォントが小さいため、回答は3行以内で極めて簡潔に。` 
+            }] 
+          }
+        })
+      });
+      
+      const data = await res.json();
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "エラー";
+      addM(aiText, 'ai');
+    } catch (e) { addM("エラー", 'ai'); }
+  };
+
+  document.getElementById('bot-in').onkeydown = e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); sdMsg(); } };
+</script>
+
