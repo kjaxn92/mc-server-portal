@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイクラサーバー法典ポータル</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #ffffff; /* Background changed to White */
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 20px 20px; /* Subtle grid for architectural feel */
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        .serif {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        .portal-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+            border-color: #94a3b8;
+        }
+
+        /* Accent badges for each law category */
+        .badge-constitution { border-top: 6px solid #d4af37; } /* Gold */
+        .badge-basic { border-top: 6px solid #475569; }        /* Slate */
+        .badge-penal { border-top: 6px solid #991b1b; }        /* Deep Red */
+        .badge-procedure { border-top: 6px solid #2563eb; }    /* Blue */
+
+        .title-accent {
+            background: linear-gradient(to right, #1e293b, #475569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-6 md:p-12">
+
+    <div class="max-w-5xl w-full">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-bold serif mb-6 tracking-widest title-accent">
+                サーバー法典ポータル
+            </h1>
+            <div class="h-0.5 w-32 bg-gray-300 mx-auto mb-8"></div>
+            <p class="text-gray-500 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
+                本サーバーにおける秩序の根幹を成す諸法典をここに集約する。<br>
+                すべてのメンバーは、以下の法規を遵守する義務を負う。
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- 1. 憲法 -->
+            <a href="constitution.html" class="portal-card p-8 rounded-lg badge-constitution group block">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold serif group-hover:text-yellow-600 transition-colors">サーバー憲法</h2>
+                    <span class="text-[10px] uppercase tracking-widest border border-yellow-400 text-yellow-700 px-2 py-1 font-bold">Supreme Law</span>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                    国家の基本原則、主権、国民の権利及び義務を定める最上位の法典。すべての法律の基準となる。
+                </p>
+                <div class="text-xs font-bold text-gray-400 group-hover:text-yellow-600 transition-colors flex items-center">
+                    VIEW DOCUMENT <span class="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </a>
+
+            <!-- 2. 基本法 -->
+            <a href="basic-law.html" class="portal-card p-8 rounded-lg badge-basic group block">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold serif group-hover:text-slate-600 transition-colors">サーバー基本法</h2>
+                    <span class="text-[10px] uppercase tracking-widest border border-slate-400 text-slate-700 px-2 py-1 font-bold">Administration</span>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                    租税、財政、通貨管理、建築規制、行政手続に関する実務的な規定。サーバー運営の指針。
+                </p>
+                <div class="text-xs font-bold text-gray-400 group-hover:text-slate-600 transition-colors flex items-center">
+                    VIEW DOCUMENT <span class="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </a>
+
+            <!-- 3. 刑法 -->
+            <a href="penal-code.html" class="portal-card p-8 rounded-lg badge-penal group block">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold serif group-hover:text-red-700 transition-colors">サーバー刑法</h2>
+                    <span class="text-[10px] uppercase tracking-widest border border-red-400 text-red-800 px-2 py-1 font-bold">Penal Code</span>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                    犯罪の定義及びそれに対する刑罰を定め、サーバー内の安全と正義を維持するための罰則規定。
+                </p>
+                <div class="text-xs font-bold text-gray-400 group-hover:text-red-700 transition-colors flex items-center">
+                    VIEW DOCUMENT <span class="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </a>
+
+            <!-- 4. 刑事訴訟法 -->
+            <a href="procedure-law.html" class="portal-card p-8 rounded-lg badge-procedure group block">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold serif group-hover:text-blue-600 transition-colors">刑事訴訟法</h2>
+                    <span class="text-[10px] uppercase tracking-widest border border-blue-400 text-blue-800 px-2 py-1 font-bold">Procedure</span>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                    捜査から裁判、刑の執行に至るまでの適正な法的プロセスを規定し、公正な司法を実現する。
+                </p>
+                <div class="text-xs font-bold text-gray-400 group-hover:text-blue-600 transition-colors flex items-center">
+                    VIEW DOCUMENT <span class="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </a>
+
+        </div>
+
+        <footer class="mt-24 pb-12 text-center">
+            <div class="text-gray-400 text-xs tracking-widest uppercase mb-4">Official Server Legislative Archive</div>
+            <div class="text-gray-300 text-[10px] max-w-xs mx-auto">
+                法律の内容は議会の議決及び公布により更新される場合があります。最新の情報を確認してください。
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
+
