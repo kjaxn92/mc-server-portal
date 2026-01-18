@@ -232,7 +232,7 @@
       <button onclick="tgBot()" style="background:none; border:none; color:#fff; cursor:pointer; padding:5px;">✕</button>
     </div>
     <div id="ms-box" class="msg-box">
-      <div class="m ai">参照URLを元に総合的に判断します。</div>
+      <div class="m ai">公式サイトの情報に基づき、総合的にアドバイスします。</div>
     </div>
     <div id="bot-input-area">
       <input id="bot-in" type="text" placeholder="状況を教えてください..." autocomplete="off">
@@ -246,8 +246,8 @@
 </div>
 
 <script>
-  // 【重要】ここにAPIキーを入力
-  const API_KEY = "AIzaSyD0nHX-L1i8bgilgFQXPrDfTnIHKnqy7Vs"; 
+  // 【重要】APIキーをここに貼り付けてください
+  const API_KEY = "AIzaSyCczphibo4pJMM7LFtc3G7OegJx3OARIRg"; 
 
   const tgBot = () => {
     const w = document.getElementById('bot-win');
@@ -267,12 +267,11 @@
     addM(t, 'user');
     input.value = '';
 
-    if (!API_KEY || API_KEY === "") {
-      addM("エラー: APIキーが設定されていません。コード内のAPI_KEYに値を入力してください。", 'ai');
+    if (!API_KEY) {
+      addM("エラー: APIキーが設定されていません。", 'ai');
       return;
     }
 
-    // ローディング表示
     const loading = document.createElement('div');
     loading.className = 'm ai';
     loading.innerText = '思考中...';
@@ -280,7 +279,6 @@
     box.scrollTop = box.scrollHeight;
 
     try {
-      // 参照先URLリスト
       const urls = [
         "https://mc-server-laws1.vercel.app/",
         "https://mc-server-law2.vercel.app/",
@@ -290,8 +288,8 @@
         "https://mc-server-law6.vercel.app/"
       ];
 
-      // モデルを安定版の 1.5-flash に変更（preview版より安定します）
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+      // モデルを 2.0-flash-exp に更新
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -303,10 +301,9 @@
 
               指示：
               1. 提示されたURL内の法典やルールを横断的に確認し、総合的なアドバイスを行ってください。
-              2. 理由や根拠となる条文・マナーを含めてください。
+              2. 単なる回答ではなく、理由や根拠となる考え方を必ず含めてください。
               3. 回答は簡潔に3〜8行程度で。
-              4. 最後に必ず【結論】を書いてください。
-              5. 知らない情報がある場合は「公式サイトをご確認ください」と促してください。` 
+              4. 最後に必ず【結論】を明記してください。` 
             }] 
           }
         })
@@ -320,11 +317,11 @@
         return;
       }
 
-      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "応答を取得できませんでした。内容を少し変えてみてください。";
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "応答を取得できませんでした。";
       addM(aiText, 'ai');
     } catch (e) {
       if(loading) loading.remove();
-      addM("接続エラーが発生しました。インターネット環境やAPIキーを確認してください。", 'ai');
+      addM("接続エラーが発生しました。", 'ai');
     }
   };
 
