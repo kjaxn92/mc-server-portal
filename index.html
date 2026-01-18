@@ -232,10 +232,10 @@
       <button onclick="tgBot()" style="background:none; border:none; color:#fff; cursor:pointer; padding:5px;">✕</button>
     </div>
     <div id="ms-box" class="msg-box">
-      <div class="m ai">サーバー法典に基づき、あなたの状況を総合的に判断します。</div>
+      <div class="m ai">参照URLを元に総合的に判断します。</div>
     </div>
     <div id="bot-input-area">
-      <input id="bot-in" type="text" placeholder="状況を詳しく教えてください..." autocomplete="off">
+      <input id="bot-in" type="text" placeholder="状況を教えてください..." autocomplete="off">
       <button id="bot-send" onclick="sdMsg()">▲</button>
     </div>
   </div>
@@ -246,7 +246,7 @@
 </div>
 
 <script>
-  // 【重要】ここに Google AI Studio で取得した API キーを入れてください
+  // 【重要】ここにAPIキーを入力
   const API_KEY = "AIzaSyD0nHX-L1i8bgilgFQXPrDfTnIHKnqy7Vs"; 
 
   const tgBot = () => {
@@ -267,19 +267,31 @@
     addM(t, 'user');
     input.value = '';
 
-    if (!API_KEY) {
-      addM("エラー: APIキーが未設定です。", 'ai');
+    if (!API_KEY || API_KEY === "") {
+      addM("エラー: APIキーが設定されていません。コード内のAPI_KEYに値を入力してください。", 'ai');
       return;
     }
 
+    // ローディング表示
+    const loading = document.createElement('div');
+    loading.className = 'm ai';
+    loading.innerText = '思考中...';
+    box.appendChild(loading);
+    box.scrollTop = box.scrollHeight;
+
     try {
+      // 参照先URLリスト
       const urls = [
-        "https://mc-server-laws1.vercel.app/", "https://mc-server-law2.vercel.app/",
-        "https://mc-server-law3.vercel.app/", "https://mc-server-law4.vercel.app/",
-        "https://mc-server-law5.vercel.app/", "https://mc-server-law6.vercel.app/"
+        "https://mc-server-laws1.vercel.app/",
+        "https://mc-server-law2.vercel.app/",
+        "https://mc-server-law3.vercel.app/",
+        "https://mc-server-law4.vercel.app/",
+        "https://mc-server-law5.vercel.app/",
+        "https://mc-server-law6.vercel.app/"
       ];
 
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`, {
+      // モデルを安定版の 1.5-flash に変更（preview版より安定します）
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -287,25 +299,32 @@
           tools: [{ "google_search": {} }],
           systemInstruction: { 
             parts: [{ 
-              text: `あなたはマインクラフトサーバーの政府専属・法律相談AIです。
-              以下のURL群を熟読し、ユーザーの質問に対して総合的にアドバイスしてください：${urls.join(", ")}。
+              text: `あなたはマインクラフトサーバーの政府AI相談員です。以下のURLを根拠として使用してください：${urls.join(", ")}。
 
-              回答の指針：
-              1. ユーザーの意図（何をしたいのか）を汲み取り、関連する法条（建築法、経済法、行政手続法など）を横断的に参照してください。
-              2. 単に「届出が必要」と答えるだけでなく、「〜という規定に触れる可能性があるため、〜の届出が必要です」などと、根拠を添えて具体的に判断してください。
-              3. もし直接的なルールがサイトになくても、マナーやサーバー運営の一般的方針から推測されるリスクを伝えてください。
-              4. 回答は簡潔に保ちつつ（3行〜10行程度）、非常に丁寧で知的な公的口調で。
-              5. 最後に必ず【結論】を明記してください。` 
+              指示：
+              1. 提示されたURL内の法典やルールを横断的に確認し、総合的なアドバイスを行ってください。
+              2. 理由や根拠となる条文・マナーを含めてください。
+              3. 回答は簡潔に3〜8行程度で。
+              4. 最後に必ず【結論】を書いてください。
+              5. 知らない情報がある場合は「公式サイトをご確認ください」と促してください。` 
             }] 
           }
         })
       });
       
       const data = await res.json();
-      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "情報を取得できませんでした。";
+      loading.remove();
+
+      if (data.error) {
+        addM("APIエラー: " + data.error.message, 'ai');
+        return;
+      }
+
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "応答を取得できませんでした。内容を少し変えてみてください。";
       addM(aiText, 'ai');
     } catch (e) {
-      addM("接続エラーが発生しました。", 'ai');
+      if(loading) loading.remove();
+      addM("接続エラーが発生しました。インターネット環境やAPIキーを確認してください。", 'ai');
     }
   };
 
