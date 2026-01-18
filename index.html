@@ -232,7 +232,7 @@
       <button onclick="tgBot()" style="background:none; border:none; color:#fff; cursor:pointer; padding:5px;">✕</button>
     </div>
     <div id="ms-box" class="msg-box">
-      <div class="m ai">公式サイトの情報に基づき、総合的にアドバイスします。</div>
+      <div class="m ai">法典に基づき、総合的に判断します。</div>
     </div>
     <div id="bot-input-area">
       <input id="bot-in" type="text" placeholder="状況を教えてください..." autocomplete="off">
@@ -246,8 +246,8 @@
 </div>
 
 <script>
-  // 【重要】APIキーをここに貼り付けてください
-  const API_KEY = "AIzaSyCczphibo4pJMM7LFtc3G7OegJx3OARIRg"; 
+  // 【重要】APIキーをここに貼り付け
+  const API_KEY = "AIzaSyD0nk8VFtiIgS-PPxZekY2vYF0t0DOUUHA"; 
 
   const tgBot = () => {
     const w = document.getElementById('bot-win');
@@ -280,16 +280,13 @@
 
     try {
       const urls = [
-        "https://mc-server-laws1.vercel.app/",
-        "https://mc-server-law2.vercel.app/",
-        "https://mc-server-law3.vercel.app/",
-        "https://mc-server-law4.vercel.app/",
-        "https://mc-server-law5.vercel.app/",
-        "https://mc-server-law6.vercel.app/"
+        "https://mc-server-laws1.vercel.app/", "https://mc-server-law2.vercel.app/",
+        "https://mc-server-law3.vercel.app/", "https://mc-server-law4.vercel.app/",
+        "https://mc-server-law5.vercel.app/", "https://mc-server-law6.vercel.app/"
       ];
 
-      // モデルを 2.0-flash-exp に更新
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${API_KEY}`, {
+      // モデルを安定版の gemini-1.5-flash に固定し、エンドポイントを v1 に変更
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -297,13 +294,9 @@
           tools: [{ "google_search": {} }],
           systemInstruction: { 
             parts: [{ 
-              text: `あなたはマインクラフトサーバーの政府AI相談員です。以下のURLを根拠として使用してください：${urls.join(", ")}。
-
-              指示：
-              1. 提示されたURL内の法典やルールを横断的に確認し、総合的なアドバイスを行ってください。
-              2. 単なる回答ではなく、理由や根拠となる考え方を必ず含めてください。
-              3. 回答は簡潔に3〜8行程度で。
-              4. 最後に必ず【結論】を明記してください。` 
+              text: `マイクラサーバーの政府法律相談AI。ソース：${urls.join(", ")}。
+              URL内の情報を総合的に判断し、根拠を添えてアドバイスしてください。
+              簡潔に3-8行で回答し、最後に【結論】を明記してください。` 
             }] 
           }
         })
@@ -313,7 +306,7 @@
       loading.remove();
 
       if (data.error) {
-        addM("APIエラー: " + data.error.message, 'ai');
+        addM("エラー: " + data.error.message, 'ai');
         return;
       }
 
@@ -327,4 +320,6 @@
 
   document.getElementById('bot-in').onkeydown = e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); sdMsg(); } };
 </script>
+
+
 
