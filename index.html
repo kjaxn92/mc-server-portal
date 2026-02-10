@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サーバー法典ポータル - 統合アーカイブ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .serif {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 各部のテーマカラー定義 */
+        .border-part-1 { border-top: 6px solid #d4af37; } /* 憲法: 金 */
+        .border-part-2 { border-top: 6px solid #1e3a8a; } /* 国家運営: 紺 */
+        .border-part-3 { border-top: 6px solid #991b1b; } /* 刑事: 赤 */
+        .border-part-4 { border-top: 6px solid #7c3aed; } /* 民法: 紫 (新規) */
+        .border-part-5 { border-top: 6px solid #065f46; } /* 経済: 緑 */
+        .border-part-6 { border-top: 6px solid #2563eb; } /* 行政: 青 */
+        .border-part-7 { border-top: 6px solid #78350f; } /* 建築: 茶 */
+    </style>
+</head>
+<body class="pb-20">
+
+    <!-- Header Section -->
+    <header class="hero-gradient text-white py-16 px-4 mb-12 shadow-lg">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-5xl font-bold serif mb-4 tracking-wider">サーバー法典ポータル</h1>
+            <p class="text-blue-100 text-lg max-w-2xl mx-auto opacity-90">
+                秩序あるサーバー運営と、自由な経済活動の基盤となる諸法典の統合データベースです。
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4">
+         
+        <!-- 法典グリッド -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- 第1部 憲法 -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-1">
+                <div class="text-xs font-bold text-yellow-600 mb-2 tracking-widest uppercase">Part I</div>
+                <h2 class="text-2xl font-bold serif mb-4">憲法</h2>
+                <p class="text-sm text-gray-500 mb-6">国の基本原則、主権、及びサーバーメンバーの基本的人権を定めた最高法規。</p>
+                <a href="https://mc-server-laws1.vercel.app/" class="inline-flex items-center text-yellow-700 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+            <!-- 第2部 国家運営 -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-2">
+                <div class="text-xs font-bold text-blue-800 mb-2 tracking-widest uppercase">Part II</div>
+                <h2 class="text-2xl font-bold serif mb-4">国家運営基本法</h2>
+                <p class="text-sm text-gray-500 mb-6">行政機構、内閣の職能、及び公務員の服務に関する規定。</p>
+                <a href="https://mc-server-law2.vercel.app/" class="inline-flex items-center text-blue-800 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+            <!-- 第3部 刑事法 -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-3">
+                <div class="text-xs font-bold text-red-700 mb-2 tracking-widest uppercase">Part III</div>
+                <h2 class="text-2xl font-bold serif mb-4">刑事法</h2>
+                <p class="text-sm text-gray-500 mb-6">犯罪の定義と刑罰（懲役、永久BAN、噴水刑等）、及び訴訟手続の規定。</p>
+                <a href="https://mc-server-law3.vercel.app/" class="inline-flex items-center text-red-700 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+            <!-- 第4部 民法 (新規追加) -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-4">
+                <div class="text-xs font-bold text-purple-700 mb-2 tracking-widest uppercase">Part IV</div>
+                <h2 class="text-2xl font-bold serif mb-4">民法</h2>
+                <p class="text-sm text-gray-500 mb-6">所有権、契約、損害賠償、及びメンバー間の権利義務関係を定めた基本法。</p>
+                <a href="#" class="inline-flex items-center text-purple-700 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+            <!-- 第5部 経済法 -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-5">
+                <div class="text-xs font-bold text-green-700 mb-2 tracking-widest uppercase">Part V</div>
+                <h2 class="text-2xl font-bold serif mb-4">経済法</h2>
+                <p class="text-sm text-gray-500 mb-6">公正取引、店舗営業、租税、国家予算、及び通貨管理に関する諸法。</p>
+                <a href="https://mc-server-law4.vercel.app/" class="inline-flex items-center text-green-700 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+            <!-- 第6部 行政法 -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-6">
+                <div class="text-xs font-bold text-blue-600 mb-2 tracking-widest uppercase">Part VI</div>
+                <h2 class="text-2xl font-bold serif mb-4">行政法</h2>
+                <p class="text-sm text-gray-500 mb-6">行政手続の公正性確保、及び公務による損害の国家賠償に関する規定。</p>
+                <a href="https://mc-server-law5.vercel.app/" class="inline-flex items-center text-blue-600 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+            <!-- 第7部 建築・景観法 -->
+            <div class="bg-white rounded-xl shadow-sm p-8 card-hover transition-all duration-300 border-part-7">
+                <div class="text-xs font-bold text-amber-800 mb-2 tracking-widest uppercase">Part VII</div>
+                <h2 class="text-2xl font-bold serif mb-4">建築・景観法</h2>
+                <p class="text-sm text-gray-500 mb-6">建築・開拓の届出義務、建築基準、及び景観保護区域に関する規定。</p>
+                <a href="https://mc-server-law6.vercel.app/" class="inline-flex items-center text-amber-900 font-bold hover:underline">
+                    法典を開く <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Notification Banner -->
+        <div class="mt-16 p-6 bg-blue-50 border border-blue-100 rounded-lg flex items-center gap-4">
+            <div class="bg-blue-500 text-white p-2 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div class="text-sm text-blue-800">
+                <strong>法典の解釈について：</strong> 各法律の具体的な適用や罰則の執行に関するお問い合わせは、裁判所又は所管の大臣までご連絡ください。
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-20 text-center text-gray-400 text-sm">
+        <p>&copy; 2026 Minecraft Server Government Archive. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
+
